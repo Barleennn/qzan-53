@@ -1,8 +1,8 @@
 {
-  "framework": "vite",
   "buildCommand": "vite build",
   "devCommand": "vite",
   "outputDirectory": "dist",
+  "framework": null,
   "cleanUrls": true,
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
