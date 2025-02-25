@@ -81,7 +81,7 @@ export function Header() {
         <div className={cn(
           "flex items-center space-x-2 sm:space-x-8",
           "transition-all duration-500 ease-in-out",
-          showSearch && "opacity-0"
+          showSearch && "opacity-0 pointer-events-none"
         )}>
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 sm:w-12 sm:h-12 flex items-center justify-center ml-8 sm:ml-0">
@@ -94,7 +94,7 @@ export function Header() {
         <div className="flex items-center space-x-2 sm:space-x-4">
           <div className={cn(
             "relative flex items-center",
-            showSearch ? "w-full sm:w-auto absolute right-4 top-[-4px] sm:right-0 sm:top-0 sm:relative" : "w-10 sm:w-10"
+            showSearch ? "w-full sm:w-auto absolute right-4 top-[2px] sm:right-0 sm:top-0 sm:relative" : "w-10 sm:w-10"
           )}>
             <div className={cn(
               "relative",
