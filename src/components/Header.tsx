@@ -8,13 +8,6 @@ export function Header() {
   const [showSearch, setShowSearch] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (showSearch && searchInputRef.current) {
-      searchInputRef.current.focus();
-    }
-  }, [showSearch]);
-
   const notifications = [
     {
       id: 1,
@@ -68,6 +61,12 @@ export function Header() {
     }
   ];
 
+  useEffect(() => {
+    if (showSearch && searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [showSearch]);
+
   return (
     <header className="h-[64px] w-full border-b border-gray-100 bg-white relative">
       <div className="h-full flex items-center justify-between px-4 sm:px-[59px]">
@@ -94,7 +93,7 @@ export function Header() {
           )}>
             <div className={cn(
               "relative",
-              showSearch ? "w-full sm:w-96" : "w-10 h-10"
+              showSearch ? "w-full sm:w-64" : "w-10 h-10"
             )}>
               <input 
                 ref={searchInputRef}
@@ -106,12 +105,15 @@ export function Header() {
                   "focus:outline-none focus:ring-0",
                   "transition-all duration-500 ease-in-out",
                   showSearch
-                    ? "w-full sm:w-96 h-10 rounded-[10px] bg-white opacity-100 pr-10"
+                    ? "w-full sm:w-64 h-10 rounded-[10px] bg-white opacity-100 pr-10"
                     : "w-10 h-10 rounded-full bg-transparent opacity-0 cursor-pointer"
                 )}
                 onFocus={() => setIsInputFocused(true)}
                 onBlur={() => {
                   setIsInputFocused(false);
+                  if (!searchInputRef.current?.value) {
+                    setTimeout(() => setShowSearch(false), 200);
+                  }
                 }}
               />
               <Button
@@ -136,21 +138,6 @@ export function Header() {
                   showSearch && "scale-90"
                 )} />
               </Button>
-              {showSearch && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="absolute right-12 top-1/2 -translate-y-1/2 text-sm text-gray-500 hover:text-gray-700"
-                  onClick={() => {
-                    setShowSearch(false);
-                    if (searchInputRef.current) {
-                      searchInputRef.current.value = '';
-                    }
-                  }}
-                >
-                  Отмена
-                </Button>
-              )}
             </div>
           </div>
           
