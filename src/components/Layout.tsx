@@ -18,6 +18,9 @@ export function Layout({ children }: LayoutProps) {
       setIsMobile(isMobileView);
       if (isMobileView) {
         setIsMenuOpen(false);
+      } else {
+        // В десктопной версии меню всегда открыто по умолчанию
+        setIsMenuOpen(true);
       }
     };
     
