@@ -94,7 +94,9 @@ export function Header() {
         <div className="flex items-center space-x-2 sm:space-x-4">
           <div className={cn(
             "relative flex items-center",
-            showSearch ? "w-full sm:w-auto absolute right-4 top-[2px] sm:right-0 sm:top-0 sm:relative" : "w-10 sm:w-10"
+            showSearch 
+              ? "w-full sm:w-auto absolute right-4 top-[4px] sm:right-0 sm:top-0 sm:relative transition-[width,opacity,transform] duration-300 ease-in-out" 
+              : "w-10 sm:w-10 transition-[width,opacity] duration-300 ease-in-out"
           )}>
             <div className={cn(
               "relative",
@@ -108,10 +110,10 @@ export function Header() {
                   "absolute right-0 px-4 py-2",
                   "border-2 border-[#202295]",
                   "focus:outline-none focus:ring-0",
-                  "transition-all duration-500 ease-in-out",
+                  "transition-all duration-300 ease-in-out",
                   showSearch
-                    ? "w-[calc(100vw-80px)] sm:w-64 h-10 rounded-[10px] bg-white opacity-100 pr-10"
-                    : "w-10 h-10 rounded-full bg-transparent opacity-0 cursor-pointer"
+                    ? "w-[calc(100vw-80px)] sm:w-64 h-10 rounded-[10px] bg-white opacity-100 pr-10 translate-x-0"
+                    : "w-10 h-10 rounded-full bg-transparent opacity-0 cursor-pointer translate-x-full sm:translate-x-0"
                 )}
                 onFocus={() => setIsInputFocused(true)}
                 onBlur={() => {
