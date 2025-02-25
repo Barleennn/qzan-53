@@ -1,4 +1,3 @@
-
 import { Bell, Plus, Search, User, FileText, MessageSquare, Download, X } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -9,6 +8,7 @@ export function Header() {
   const [showSearch, setShowSearch] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
+
   const notifications = [
     {
       id: 1,
@@ -92,9 +92,8 @@ export function Header() {
 
         <div className="flex items-center space-x-2 sm:space-x-4">
           <div className={cn(
-            "absolute sm:relative right-4 sm:right-auto left-4 sm:left-auto",
-            "flex items-center",
-            showSearch ? "w-[calc(100%-32px)] sm:w-auto" : "w-10 sm:w-10"
+            "relative flex items-center",
+            showSearch ? "w-[calc(100vw-32px)] sm:w-auto" : "w-10 sm:w-10"
           )}>
             <div className={cn(
               "relative",
@@ -110,7 +109,7 @@ export function Header() {
                   "focus:outline-none focus:ring-0",
                   "transition-all duration-500 ease-in-out",
                   showSearch
-                    ? "w-full sm:w-64 h-10 rounded-[10px] bg-white opacity-100 pr-10 pl-4"
+                    ? "w-full sm:w-64 h-10 rounded-[10px] bg-white opacity-100 pr-10"
                     : "w-10 h-10 rounded-full bg-transparent opacity-0 cursor-pointer"
                 )}
                 onFocus={() => setIsInputFocused(true)}
