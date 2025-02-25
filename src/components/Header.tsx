@@ -1,4 +1,4 @@
-import { Bell, Plus, Search, User, FileText, MessageSquare, Download } from "lucide-react";
+import { Bell, Plus, Search, User, FileText, MessageSquare, Download, X } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -15,27 +15,31 @@ export function Header() {
       description: "Уважаемый (ая) уведомляем вас об успешном..",
       isNew: true,
       bgColor: "#D9D9D9"
-    }, {
+    },
+    {
       id: 2,
       title: "Уведомление об изменении в правилах..",
       description: "Уважаемый (ая) уведомляем вас об успешном..",
       isNew: true,
       bgColor: "#D9D9D9"
-    }, {
+    },
+    {
       id: 3,
       title: "Сообщение от НУК о регистрации логотипа в...",
       description: "Уважаемый (ая) уведомляем вас об успешном..",
       isNew: false,
       isRead: true,
       bgColor: "#D9D9D9"
-    }, {
+    },
+    {
       id: 4,
       title: "Успешная подача заявления в ЦОН..",
       description: "Уважаемый (ая) уведомляем вас об успешном..",
       isNew: false,
       isRead: true,
       bgColor: "#D9D9D9"
-    }, {
+    },
+    {
       id: 5,
       title: "Вы завершили регистрацию на платформе..",
       description: "Уважаемый (ая) уведомляем вас об успешном..",
@@ -50,11 +54,13 @@ export function Header() {
       id: 1,
       name: "Заявление.pdf",
       size: "245 KB"
-    }, {
+    },
+    {
       id: 2,
       name: "Разрешение на выставление.pdf",
       size: "1.2 MB"
-    }, {
+    },
+    {
       id: 3,
       name: "Заявление на участия.pdf",
       size: "890 KB"
@@ -70,7 +76,6 @@ export function Header() {
   return (
     <header className="h-[64px] w-full border-b border-gray-100 bg-white relative">
       <div className="h-full flex items-center justify-between px-4 sm:px-[59px]">
-        {/* Left side - User info */}
         <div className={cn(
           "flex items-center space-x-2 sm:space-x-8",
           "transition-all duration-500 ease-in-out",
@@ -84,12 +89,10 @@ export function Header() {
           </div>
         </div>
 
-        {/* Right side - Actions */}
         <div className="flex items-center space-x-2 sm:space-x-4">
-          {/* Search with circular animation */}
           <div className={cn(
             "relative flex items-center",
-            showSearch ? "w-full sm:w-auto" : "w-10 sm:w-10"
+            showSearch ? "w-[calc(100vw-32px)] sm:w-auto" : "w-10 sm:w-10"
           )}>
             <div className={cn(
               "relative",
@@ -116,38 +119,51 @@ export function Header() {
                   }
                 }}
               />
-              <Button
-                variant="ghost"
-                size="icon"
-                className={cn(
-                  "absolute right-0 w-10 h-10 p-0",
-                  "transition-all duration-300 ease-in-out",
-                  showSearch ? "opacity-50 hover:opacity-100" : "opacity-100",
-                  "hover:bg-transparent"
-                )}
-                onClick={() => {
-                  setShowSearch(!showSearch);
-                  if (!showSearch && searchInputRef.current) {
-                    searchInputRef.current.focus();
-                  }
-                }}
-              >
-                <Search className={cn(
-                  "w-5 h-5 text-[#202295]",
-                  "transition-all duration-300 ease-in-out",
-                  showSearch && "scale-90"
-                )} />
-              </Button>
+              {showSearch ? (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={cn(
+                    "absolute right-0 w-10 h-10 p-0",
+                    "transition-all duration-300 ease-in-out",
+                    "hover:bg-transparent"
+                  )}
+                  onClick={() => {
+                    if (searchInputRef.current) {
+                      searchInputRef.current.value = '';
+                    }
+                    setShowSearch(false);
+                  }}
+                >
+                  <X className="w-5 h-5 text-[#202295]" />
+                </Button>
+              ) : (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={cn(
+                    "absolute right-0 w-10 h-10 p-0",
+                    "transition-all duration-300 ease-in-out",
+                    "hover:bg-transparent"
+                  )}
+                  onClick={() => {
+                    setShowSearch(true);
+                    if (searchInputRef.current) {
+                      searchInputRef.current.focus();
+                    }
+                  }}
+                >
+                  <Search className="w-5 h-5 text-[#202295]" />
+                </Button>
+              )}
             </div>
           </div>
           
-          {/* Other actions with animation */}
           <div className={cn(
             "flex items-center space-x-2 sm:space-x-4",
             "transition-all duration-300 ease-in-out",
             showSearch && "opacity-0 sm:opacity-100 scale-95 pointer-events-none sm:pointer-events-auto"
           )}>
-            {/* Mobile only - Notifications */}
             <div className={cn(
               "block sm:hidden",
               "transition-all duration-300 ease-in-out",
@@ -167,7 +183,8 @@ export function Header() {
                     </SheetTitle>
                   </SheetHeader>
                   <div className="overflow-auto">
-                    {notifications.map(notification => <div key={notification.id} className="flex items-start space-x-3 px-4 sm:px-6 py-4 transition-colors bg-[#f5f7fa] my-[19px]">
+                    {notifications.map(notification => (
+                      <div key={notification.id} className="flex items-start space-x-3 px-4 sm:px-6 py-4 transition-colors bg-[#f5f7fa] my-[19px]">
                         <MessageSquare className={`w-5 h-5 shrink-0 ${notification.isNew ? 'text-[#4338ca] fill-[#4338ca]' : 'text-gray-400 fill-gray-400'}`} />
                         <div className="min-w-0 flex-1">
                           <p className="font-medium text-gray-900 text-sm sm:text-base truncate">{notification.title}</p>
@@ -179,13 +196,13 @@ export function Header() {
                               <polyline points="20 6 9 17 4 12" />
                             </svg>
                           </div>}
-                      </div>)}
+                      </div>
+                    ))}
                   </div>
                 </SheetContent>
               </Sheet>
             </div>
 
-            {/* Mobile only - Documents */}
             <div className={cn(
               "block sm:hidden",
               "transition-all duration-300 ease-in-out",
@@ -208,7 +225,8 @@ export function Header() {
                     </SheetTitle>
                   </SheetHeader>
                   <div className="overflow-auto">
-                    {documents.map((doc, index) => <div key={doc.id} className={`flex items-center justify-between px-4 sm:px-6 py-4 ${index !== documents.length - 1 ? 'border-b border-gray-100' : ''}`}>
+                    {documents.map((doc, index) => (
+                      <div key={doc.id} className={`flex items-center justify-between px-4 sm:px-6 py-4 ${index !== documents.length - 1 ? 'border-b border-gray-100' : ''}`}>
                         <div className="flex items-center space-x-3">
                           <FileText className="w-5 h-5 text-[#4338ca]" />
                           <span className="text-sm sm:text-base text-gray-900">{doc.name}</span>
@@ -225,13 +243,13 @@ export function Header() {
                             <Download className="w-4 h-4 text-gray-400" />
                           </button>
                         </div>
-                      </div>)}
+                      </div>
+                    ))}
                   </div>
                 </SheetContent>
               </Sheet>
             </div>
 
-            {/* Add button */}
             <Button size="icon" className={cn(
               "bg-[#202295] text-white hover:bg-[#202295]/90 rounded-full",
               "transition-all duration-300 ease-in-out",
