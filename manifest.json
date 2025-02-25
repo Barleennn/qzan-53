@@ -1,0 +1,19 @@
+{
+  "name": "Qzan",
+  "short_name": "Qzan",
+  "description": "Qzan - Modern AI Chat Application",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#202295",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "32x32",
+      "type": "image/svg+xml"
+    }
+  ],
+  "orientation": "portrait",
+  "scope": "/",
+  "prefer_related_applications": false
+}
