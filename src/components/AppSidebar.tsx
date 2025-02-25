@@ -1,8 +1,10 @@
+
 import { useState, useEffect } from "react";
 import { MessageSquare, User, Lock, Clock, CreditCard, File, Heart, Download, Plus, Bot, MessageCircle, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLocation, Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+
 const menuItems = [{
   icon: MessageSquare,
   text: "Входящие",
@@ -32,6 +34,7 @@ const menuItems = [{
   text: "Тестовый чат",
   href: "/test-chat"
 }];
+
 const documentItems = [{
   text: "Договор на оказание услуг",
   href: "/documents/1"
@@ -42,16 +45,19 @@ const documentItems = [{
   text: "Политика конфиденциальности",
   href: "/documents/3"
 }];
+
 interface AppSidebarProps {
   isMenuOpen: boolean;
   setIsMenuOpen: (isOpen: boolean) => void;
 }
+
 export function AppSidebar({
   isMenuOpen,
   setIsMenuOpen
 }: AppSidebarProps) {
   const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
+
   useEffect(() => {
     const checkScreenSize = () => {
       const isMobileView = window.innerWidth < 768;
@@ -61,29 +67,66 @@ export function AppSidebar({
     window.addEventListener('resize', checkScreenSize);
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
-  const MenuItem = ({
-    item
-  }) => {
+
+  const MenuItem = ({ item }) => {
     if (isMobile && !isMenuOpen) {
       return null;
     }
-    return <Link to={item.href} className={cn("h-[45px] flex items-center px-5 hover:bg-gray-50 cursor-pointer group border-l-4 border-transparent", !isMenuOpen && "px-2 justify-center", location.pathname === item.href && "bg-[#202295] border-white", item.className)} onClick={() => isMobile && setIsMenuOpen(false)}>
-        <item.icon className={cn("w-[20px] h-[20px] stroke-[2.5px] group-hover:text-[#202295]", location.pathname === item.href ? "text-white" : "text-[#B3B3B3]")} />
-        <span className={cn("ml-3 text-[16px] group-hover:text-[#202295] transition-all duration-300", !isMenuOpen && "opacity-0 w-0 ml-0", location.pathname === item.href ? "text-white" : item.className || "text-[#000000]")}>
+    return (
+      <Link 
+        to={item.href} 
+        className={cn(
+          "h-[45px] flex items-center px-5 hover:bg-gray-50 cursor-pointer group border-l-4 border-transparent",
+          !isMenuOpen && "px-2 justify-center",
+          location.pathname === item.href && "bg-[#202295] border-white",
+          item.className
+        )}
+        onClick={() => isMobile && setIsMenuOpen(false)}
+      >
+        <item.icon className={cn(
+          "w-[20px] h-[20px] stroke-[2.5px] group-hover:text-[#202295]",
+          location.pathname === item.href ? "text-white" : "text-[#B3B3B3]"
+        )} />
+        <span className={cn(
+          "ml-3 text-[16px] group-hover:text-[#202295] transition-all duration-300",
+          !isMenuOpen && "opacity-0 w-0 ml-0",
+          location.pathname === item.href ? "text-white" : item.className || "text-[#000000]"
+        )}>
           {item.text}
         </span>
-      </Link>;
+      </Link>
+    );
   };
-  const menuButton = <button onClick={() => setIsMenuOpen(!isMenuOpen)} className={cn("flex items-center justify-center z-50", isMobile ? "fixed right-4 top-5" : "absolute top-8 right-4 z-10 p-4 hover:bg-gray-50")}>
+
+  const menuButton = (
+    <button 
+      onClick={() => setIsMenuOpen(!isMenuOpen)} 
+      className={cn(
+        "flex items-center justify-center z-50",
+        isMobile ? "fixed left-4 top-5" : "absolute top-8 right-4 z-10 p-4 hover:bg-gray-50"
+      )}
+    >
       <Menu className="w-6 h-6 text-[#B3B3B3]" />
-    </button>;
+    </button>
+  );
+
   if (isMobile && !isMenuOpen) {
     return menuButton;
   }
-  return <div className={cn("h-full bg-white border-r border-gray-200 transition-all duration-300 ease-in-out flex-shrink-0 fixed left-0 top-0 z-40", isMenuOpen ? "w-[300px] sm:w-[361px]" : "w-[60px]", isMobile && isMenuOpen && "w-full md:w-[361px]")}>
+
+  return (
+    <div className={cn(
+      "h-full bg-white border-r border-gray-200 flex-shrink-0 fixed left-0 top-0 z-40",
+      "transition-all duration-300 ease-in-out transform",
+      isMenuOpen ? "translate-x-0 w-[300px] sm:w-[361px]" : "-translate-x-full w-[60px]",
+      isMobile && isMenuOpen && "w-full md:w-[361px]"
+    )}>
       {menuButton}
 
-      <div className="transition-opacity duration-300">
+      <div className={cn(
+        "transition-all duration-300",
+        isMenuOpen ? "opacity-100" : "opacity-0"
+      )}>
         <div className="flex items-center px-4 sm:px-[30px] pt-8">
           <div className={cn("transition-opacity duration-300", !isMenuOpen && "opacity-0")}>
             <h1 className="text-3xl sm:text-[46px] font-bold mx-[77px]">Qzan</h1>
@@ -103,7 +146,12 @@ export function AppSidebar({
             </span>
           </div>
 
-          {documentItems.map((item, index) => <Link key={index} to={item.href} className="h-[45px] flex items-center px-5 hover:bg-gray-50 cursor-pointer group relative">
+          {documentItems.map((item, index) => (
+            <Link 
+              key={index} 
+              to={item.href} 
+              className="h-[45px] flex items-center px-5 hover:bg-gray-50 cursor-pointer group relative"
+            >
               <span className="text-[17px] text-[#000000]">
                 {item.text}
               </span>
@@ -111,8 +159,10 @@ export function AppSidebar({
                 <Heart className="w-[18px] h-[18px] text-[#B3B3B3] hover:text-[#202295]" />
                 <Download className="w-[18px] h-[18px] text-[#B3B3B3] hover:text-[#202295]" />
               </div>
-            </Link>)}
+            </Link>
+          ))}
         </div>
       </div>
-    </div>;
+    </div>
+  );
 }
