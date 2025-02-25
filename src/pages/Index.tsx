@@ -57,9 +57,9 @@ export default function Index() {
     <div className="min-h-screen w-full bg-[#F5F7FA]">
       <div className="flex justify-center px-4 sm:px-[59px] py-6 sm:py-[40px]">
         <div className="w-full">
-          <div className="flex flex-col lg:flex-row items-start space-y-6 lg:space-y-0 lg:space-x-6">
+          <div className="flex flex-col md:flex-row items-start space-y-6 md:space-y-0 md:space-x-6">
             {/* Левая часть */}
-            <div className="w-full lg:w-[60%] xl:w-[65%] 2xl:w-[70%]">
+            <div className="w-full md:w-[60%] xl:w-[65%] 2xl:w-[70%]">
               <div className="w-full">
                 <UserProfile />
               </div>
@@ -68,8 +68,8 @@ export default function Index() {
               </div>
             </div>
 
-            {/* Правая часть - только для десктопа */}
-            <div className="hidden lg:block lg:w-[40%] xl:w-[35%] 2xl:w-[30%] space-y-6">
+            {/* Правая часть - для планшетов и десктопов */}
+            <div className="hidden md:block md:w-[40%] xl:w-[35%] 2xl:w-[30%] space-y-6">
               {/* Уведомления */}
               <div className="bg-white rounded-lg p-4 xl:p-6">
                 <div className="flex items-center justify-between mb-4 xl:mb-6">
