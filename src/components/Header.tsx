@@ -163,13 +163,9 @@ export function Header() {
           <div className={cn(
             "flex items-center space-x-2 sm:space-x-4",
             "transition-all duration-300 ease-in-out",
-            showSearch && "opacity-0 sm:opacity-100 scale-95 pointer-events-none sm:pointer-events-auto"
+            showSearch && "opacity-0 sm:opacity-100 scale-95 sm:scale-100 pointer-events-none sm:pointer-events-auto"
           )}>
-            <div className={cn(
-              "block sm:hidden",
-              "transition-all duration-300 ease-in-out",
-              showSearch && "opacity-0 translate-x-4 pointer-events-none"
-            )}>
+            <div className="block sm:hidden">
               <Sheet>
                 <SheetTrigger asChild>
                   <Button variant="ghost" size="icon" className="relative">
@@ -204,11 +200,7 @@ export function Header() {
               </Sheet>
             </div>
 
-            <div className={cn(
-              "block sm:hidden",
-              "transition-all duration-300 ease-in-out",
-              showSearch && "opacity-0 translate-x-4 pointer-events-none"
-            )}>
+            <div className="block sm:hidden">
               <Sheet>
                 <SheetTrigger asChild>
                   <Button variant="ghost" size="icon" className="relative">
@@ -254,7 +246,7 @@ export function Header() {
             <Button size="icon" className={cn(
               "bg-[#202295] text-white hover:bg-[#202295]/90 rounded-full",
               "transition-all duration-300 ease-in-out",
-              showSearch && "opacity-0 translate-x-4 pointer-events-none sm:opacity-100 sm:translate-x-0 sm:pointer-events-auto"
+              showSearch ? "opacity-0 sm:opacity-100 translate-x-4 sm:translate-x-0 pointer-events-none sm:pointer-events-auto" : ""
             )}>
               <Plus className="w-5 h-5" />
             </Button>
