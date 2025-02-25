@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { MessageSquare, User, Lock, Clock, CreditCard, File, Heart, Download, Plus, Bot, MessageCircle, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -106,29 +107,29 @@ export function AppSidebar({ isMenuOpen, setIsMenuOpen }: AppSidebarProps) {
     );
   };
 
+  const menuButton = (
+    <button 
+      onClick={() => setIsMenuOpen(!isMenuOpen)} 
+      className={cn(
+        "p-4 hover:bg-gray-50 transition-colors flex items-center justify-center",
+        isMobile ? "fixed top-0 left-0 z-50 h-16" : "absolute top-8 right-4 z-10"
+      )}
+    >
+      <Menu className="w-6 h-6 text-[#B3B3B3]" />
+    </button>
+  );
+
   if (isMobile && !isMenuOpen) {
-    return (
-      <button 
-        onClick={() => setIsMenuOpen(true)} 
-        className="fixed top-0 left-0 h-[64px] px-4 flex items-center hover:bg-gray-50 transition-colors"
-      >
-        <Menu className="w-6 h-6 text-[#B3B3B3]" />
-      </button>
-    );
+    return menuButton;
   }
 
   return (
     <div className={cn(
-      "h-full bg-white border-r border-gray-200 transition-all duration-300 ease-in-out flex-shrink-0 fixed left-0 top-0 z-50",
+      "h-full bg-white border-r border-gray-200 transition-all duration-300 ease-in-out flex-shrink-0 fixed left-0 top-0 z-40",
       isMenuOpen ? "w-[300px] sm:w-[361px]" : "w-[60px]",
       isMobile && isMenuOpen && "w-full md:w-[361px]"
     )}>
-      <button 
-        onClick={() => setIsMenuOpen(false)} 
-        className="absolute top-8 right-4 hover:bg-gray-50 p-2 transition-colors z-10"
-      >
-        <Menu className="w-6 h-6 text-[#B3B3B3]" />
-      </button>
+      {menuButton}
 
       <div className="transition-opacity duration-300">
         <div className="flex items-center px-4 sm:px-[30px] pt-8">
