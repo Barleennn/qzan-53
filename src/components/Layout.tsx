@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { AppSidebar } from "./AppSidebar";
 import { Header } from "./Header";
@@ -11,6 +10,7 @@ interface LayoutProps {
 export function Layout({ children }: LayoutProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const [showSearch, setShowSearch] = useState(false); // Add this line
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -31,7 +31,11 @@ export function Layout({ children }: LayoutProps) {
 
   return (
     <div className="flex min-h-screen w-full">
-      <AppSidebar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+      <AppSidebar 
+        isMenuOpen={isMenuOpen} 
+        setIsMenuOpen={setIsMenuOpen} 
+        hideMenuButton={showSearch} // Add this prop
+      />
       
       <div 
         className={cn(
@@ -40,7 +44,10 @@ export function Layout({ children }: LayoutProps) {
         )}
       >
         <div className="w-full max-w-[1600px] mx-auto">
-          <Header />
+          <Header 
+            showSearch={showSearch} 
+            setShowSearch={setShowSearch} 
+          />
           <main className="w-full">
             {children}
           </main>

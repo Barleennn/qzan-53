@@ -11,7 +11,7 @@ export function PaymentCards() {
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8">
             <img
-              src="/mastercard-white.svg"
+              src="https://www.mastercard.kz/content/dam/public/mastercardcom/kz/ru/homepage/icons/mastercard-logo-52.svg"
               alt="MasterCard"
               className="w-full h-auto object-contain"
             />
@@ -29,7 +29,7 @@ export function PaymentCards() {
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8">
             <img
-              src="/visa-white.svg"
+              src="https://cdn.visa.com/v2/assets/images/logos/visa/blue/logo.png"
               alt="Visa"
               className="w-full h-auto object-contain"
             />
