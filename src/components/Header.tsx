@@ -1,10 +1,13 @@
 import { Bell, Plus, Search, User, FileText, MessageSquare, Download } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export function Header() {
   const [showSearch, setShowSearch] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const notifications = [
     {
       id: 1,
@@ -58,15 +61,21 @@ export function Header() {
     }
   ];
 
+  useEffect(() => {
+    if (showSearch && searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [showSearch]);
+
   return (
     <header className="h-[64px] w-full border-b border-gray-100 bg-white relative">
       <div className="h-full flex items-center justify-between px-4 sm:px-[59px]">
         {/* Left side - User info */}
-        <div className={`
-          flex items-center space-x-2 sm:space-x-8 
-          transition-all duration-300 ease-in-out
-          ${showSearch ? 'opacity-0 sm:opacity-100 translate-x-[-20px] sm:translate-x-0' : 'opacity-100 translate-x-0'}
-        `}>
+        <div className={cn(
+          "flex items-center space-x-2 sm:space-x-8",
+          "transition-all duration-500 ease-in-out",
+          showSearch && "opacity-0 sm:opacity-100 translate-x-[-20px] sm:translate-x-0"
+        )}>
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 sm:w-12 sm:h-12 flex items-center justify-center ml-8 sm:ml-0">
               <User className="w-6 h-6 sm:w-8 sm:h-8 text-[#202295]" />
@@ -77,69 +86,73 @@ export function Header() {
 
         {/* Right side - Actions */}
         <div className="flex items-center space-x-2 sm:space-x-4">
-          {/* Search - toggleable on mobile */}
-          <div className={`
-            absolute left-0 right-0 px-4 bg-white h-[64px] items-center z-10
-            transition-all duration-500 ease-in-out
-            ${showSearch ? 'flex opacity-100 scale-x-100' : 'hidden sm:flex opacity-0 scale-x-0'}
-            transform origin-[calc(100%-2.5rem)]
-          `}>
-            <input 
-              type="text" 
-              placeholder="поиск" 
-              className={`
-                pl-10 pr-4 py-2 border border-gray-200 rounded-[33px] w-full sm:w-64 
-                focus:outline-none focus:ring-2 focus:ring-[#202295] focus:border-transparent
-                transition-all duration-500 ease-in-out
-                ${showSearch ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'}
-                transform origin-right
-              `}
-            />
-            <Search className={`
-              w-5 h-5 text-gray-400 absolute left-6 sm:left-3 top-1/2 
-              transform -translate-y-1/2
-              transition-all duration-500 ease-in-out
-              ${showSearch ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}
-            `} />
-            {showSearch && (
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className={`
-                  ml-2 sm:hidden
-                  transition-all duration-500 ease-in-out
-                  ${showSearch ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}
-                `} 
-                onClick={() => setShowSearch(false)}
+          {/* Search with circular animation */}
+          <div className={cn(
+            "relative flex items-center",
+            showSearch ? "w-full sm:w-auto" : "w-10 sm:w-10"
+          )}>
+            <div className={cn(
+              "relative",
+              showSearch ? "w-full sm:w-64" : "w-10 h-10"
+            )}>
+              <input 
+                ref={searchInputRef}
+                type="text" 
+                placeholder={showSearch ? "поиск" : ""}
+                className={cn(
+                  "absolute right-0 px-4 py-2",
+                  "border-2 border-[#202295]",
+                  "focus:outline-none focus:ring-0",
+                  "transition-all duration-500 ease-in-out",
+                  showSearch
+                    ? "w-full sm:w-64 h-10 rounded-[10px] bg-white opacity-100 pr-10"
+                    : "w-10 h-10 rounded-full bg-transparent opacity-0 cursor-pointer"
+                )}
+                onFocus={() => setIsInputFocused(true)}
+                onBlur={() => {
+                  setIsInputFocused(false);
+                  if (!searchInputRef.current?.value) {
+                    setTimeout(() => setShowSearch(false), 200);
+                  }
+                }}
+              />
+              <Button
+                variant="ghost"
+                size="icon"
+                className={cn(
+                  "absolute right-0 w-10 h-10 p-0",
+                  "transition-all duration-300 ease-in-out",
+                  showSearch ? "opacity-50 hover:opacity-100" : "opacity-100",
+                  "hover:bg-transparent"
+                )}
+                onClick={() => {
+                  setShowSearch(!showSearch);
+                  if (!showSearch && searchInputRef.current) {
+                    searchInputRef.current.focus();
+                  }
+                }}
               >
-                Отмена
+                <Search className={cn(
+                  "w-5 h-5 text-[#202295]",
+                  "transition-all duration-300 ease-in-out",
+                  showSearch && "scale-90"
+                )} />
               </Button>
-            )}
+            </div>
           </div>
           
           {/* Other actions with animation */}
-          <div className={`
-            flex items-center space-x-2 sm:space-x-4 
-            transition-all duration-300 ease-in-out
-            ${showSearch ? 'opacity-0 sm:opacity-100 scale-95 pointer-events-none sm:pointer-events-auto' : 'opacity-100 scale-100 pointer-events-auto'}
-          `}>
-            {!showSearch && (
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="sm:hidden transition-all duration-300 ease-in-out"
-                onClick={() => setShowSearch(true)}
-              >
-                <Search className="w-5 h-5" />
-              </Button>
-            )}
-
+          <div className={cn(
+            "flex items-center space-x-2 sm:space-x-4",
+            "transition-all duration-300 ease-in-out",
+            showSearch && "opacity-0 sm:opacity-100 scale-95 pointer-events-none sm:pointer-events-auto"
+          )}>
             {/* Mobile only - Notifications */}
-            <div className={`
-              block sm:hidden
-              transition-all duration-300 ease-in-out
-              ${showSearch ? 'opacity-0 translate-x-4 pointer-events-none' : 'opacity-100 translate-x-0'}
-            `}>
+            <div className={cn(
+              "block sm:hidden",
+              "transition-all duration-300 ease-in-out",
+              showSearch && "opacity-0 translate-x-4 pointer-events-none"
+            )}>
               <Sheet>
                 <SheetTrigger asChild>
                   <Button variant="ghost" size="icon" className="relative">
@@ -173,11 +186,11 @@ export function Header() {
             </div>
 
             {/* Mobile only - Documents */}
-            <div className={`
-              block sm:hidden
-              transition-all duration-300 ease-in-out
-              ${showSearch ? 'opacity-0 translate-x-4 pointer-events-none' : 'opacity-100 translate-x-0'}
-            `}>
+            <div className={cn(
+              "block sm:hidden",
+              "transition-all duration-300 ease-in-out",
+              showSearch && "opacity-0 translate-x-4 pointer-events-none"
+            )}>
               <Sheet>
                 <SheetTrigger asChild>
                   <Button variant="ghost" size="icon" className="relative">
@@ -219,11 +232,11 @@ export function Header() {
             </div>
 
             {/* Add button */}
-            <Button size="icon" className={`
-              bg-[#202295] text-white hover:bg-[#202295]/90 rounded-full
-              transition-all duration-300 ease-in-out
-              ${showSearch ? 'opacity-0 translate-x-4 pointer-events-none sm:opacity-100 sm:translate-x-0 sm:pointer-events-auto' : 'opacity-100 translate-x-0'}
-            `}>
+            <Button size="icon" className={cn(
+              "bg-[#202295] text-white hover:bg-[#202295]/90 rounded-full",
+              "transition-all duration-300 ease-in-out",
+              showSearch && "opacity-0 translate-x-4 pointer-events-none sm:opacity-100 sm:translate-x-0 sm:pointer-events-auto"
+            )}>
               <Plus className="w-5 h-5" />
             </Button>
           </div>
