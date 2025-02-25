@@ -111,8 +111,8 @@ export function AppSidebar({ isMenuOpen, setIsMenuOpen }: AppSidebarProps) {
     <button 
       onClick={() => setIsMenuOpen(!isMenuOpen)} 
       className={cn(
-        "flex items-center justify-center z-50",
-        isMobile ? "fixed right-4 top-5" : "absolute top-8 right-4 z-10 p-4 hover:bg-gray-50"
+        "p-4 hover:bg-gray-50 transition-colors flex items-center justify-center",
+        isMobile ? "fixed top-0 left-0 z-50 h-16" : "absolute top-8 right-4 z-10"
       )}
     >
       <Menu className="w-6 h-6 text-[#B3B3B3]" />
