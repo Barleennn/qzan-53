@@ -1,58 +1,24 @@
-import { useState, useEffect } from "react";
-import { AppSidebar } from "./AppSidebar";
-import { Header } from "./Header";
-import { cn } from "@/lib/utils";
+import { Header } from './Header'
+import { ReactNode } from 'react'
 
 interface LayoutProps {
-  children: React.ReactNode;
+  children: ReactNode
+  showSearch: boolean
+  setShowSearch: (show: boolean) => void
+  isContractFullscreen: boolean
 }
 
-export function Layout({ children }: LayoutProps) {
-  const [isMobile, setIsMobile] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(true);
-  const [showSearch, setShowSearch] = useState(false); // Add this line
-
-  useEffect(() => {
-    const checkScreenSize = () => {
-      const isMobileView = window.innerWidth < 768;
-      setIsMobile(isMobileView);
-      if (isMobileView) {
-        setIsMenuOpen(false);
-      } else {
-        // В десктопной версии меню всегда открыто по умолчанию
-        setIsMenuOpen(true);
-      }
-    };
-    
-    checkScreenSize();
-    window.addEventListener('resize', checkScreenSize);
-    return () => window.removeEventListener('resize', checkScreenSize);
-  }, []);
-
+export function Layout({ children, showSearch, setShowSearch, isContractFullscreen }: LayoutProps) {
   return (
-    <div className="flex min-h-screen w-full">
-      <AppSidebar 
-        isMenuOpen={isMenuOpen} 
-        setIsMenuOpen={setIsMenuOpen} 
-        hideMenuButton={showSearch} // Add this prop
+    <div className="flex flex-col min-h-screen">
+      <Header 
+        showSearch={showSearch}
+        setShowSearch={setShowSearch}
+        isContractFullscreen={isContractFullscreen}
       />
-      
-      <div 
-        className={cn(
-          "flex-1 min-h-screen transition-all duration-300",
-          isMenuOpen ? "md:ml-[300px] lg:ml-[361px]" : "ml-0",
-        )}
-      >
-        <div className="w-full max-w-[1600px] mx-auto">
-          <Header 
-            showSearch={showSearch} 
-            setShowSearch={setShowSearch} 
-          />
-          <main className="w-full">
-            {children}
-          </main>
-        </div>
-      </div>
+      <main className="flex-1">
+        {children}
+      </main>
     </div>
-  );
+  )
 }

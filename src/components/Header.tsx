@@ -107,60 +107,60 @@ export const Header = ({ showSearch, setShowSearch, isContractFullscreen }: Head
         </div>
 
         {/* Right side - Actions */}
-        <div className="flex items-center space-x-2 sm:space-x-4 relative">
-          {/* Search Input */}
+        <div className="flex items-center space-x-2 sm:space-x-4">
+          {/* Search Input - Desktop fixes */}
           <div className={cn(
             "relative flex items-center",
             showSearch 
-              ? "w-[calc(100%-100px)] absolute left-4 right-2 top-1 sm:relative sm:w-auto sm:left-auto sm:right-auto sm:-top-2" // Changed from 80px to 100px
-              : "w-10 sm:w-10"
+              ? "absolute left-16 right-16 top-1 sm:static sm:w-64" // Fixed desktop width
+              : "w-10"
           )}>
             <div className={cn(
-              "relative",
-              showSearch ? "w-full sm:w-64" : "w-10 h-10"
+              "relative w-full",
+              !showSearch && "w-10 h-10"
             )}>
               <input 
-              ref={searchInputRef}
-              type="text" 
-              placeholder={showSearch ? "поиск" : ""}
-              className={cn(
-                "absolute right-0 px-4 py-2", // Added top-0
-                "border-2 border-[#202295]",
-                "focus:outline-none focus:ring-0",
-                "transition-all duration-300 ease-in-out",
-                showSearch
-                ? "w-full h-9 sm:h-10 sm:w-64 rounded-[10px] bg-white opacity-100 pr-10 top-1 sm:-top-3 ml-1 sm:ml-0" // Added ml-1 for mobile
-                : "w-10 h-10 rounded-full bg-transparent opacity-0 cursor-pointer"
-              )}
-              onFocus={() => setIsInputFocused(true)}
-              onBlur={() => {
-                setIsInputFocused(false);
-                if (!searchInputRef.current?.value) {
-                setTimeout(() => setShowSearch(false), 200);
-                }
-              }}
+                ref={searchInputRef}
+                type="text" 
+                placeholder={showSearch ? "поиск" : ""}
+                className={cn(
+                  "absolute right-0",
+                  "border-2 border-[#202295]",
+                  "focus:outline-none focus:ring-0",
+                  "transition-all duration-300 ease-in-out",
+                  showSearch
+                    ? "w-full h-9 sm:h-10 rounded-[10px] bg-white opacity-100 pl-3 pr-8 text-sm sm:text-base sm:-top-1" // Added top adjustment for desktop
+                    : "w-10 h-10 rounded-full bg-transparent opacity-0 cursor-pointer"
+                )}
+                onFocus={() => setIsInputFocused(true)}
+                onBlur={() => {
+                  setIsInputFocused(false);
+                  if (!searchInputRef.current?.value) {
+                    setTimeout(() => setShowSearch(false), 200);
+                  }
+                }}
               />
               <button 
-              className={cn(
-                "absolute right-0 flex items-center justify-center", // Added top-0
-                showSearch 
-                ? "right-3 text-[#202295] w-9 h-9 sm:w-10 sm:h-10 top-1 sm:-top-3" // Added top-1 for mobile
-                : "bg-[#202295] rounded-full w-10 h-10"
-              )}
-              onClick={() => setShowSearch(!showSearch)}
+                className={cn(
+                  "absolute flex items-center justify-center",
+                  showSearch 
+                    ? "right-2 top-[8px] sm:top-[6px] text-[#202295]" // Adjusted desktop button position
+                    : "inset-0 bg-[#202295] rounded-full"
+                )}
+                onClick={() => setShowSearch(!showSearch)}
               >
-              <Search className={cn(
-                "w-4 h-4 sm:w-5 sm:h-5", // Smaller icon for mobile
-                !showSearch && "text-white"
-              )} />
+                <Search className={cn(
+                  "w-4 h-4 sm:w-5 sm:h-5",
+                  !showSearch && "text-white"
+                )} />
               </button>
             </div>
           </div>
-          
-          {/* Mobile Actions */}
+
+          {/* Mobile Actions - Updated visibility */}
           <div className={cn(
-            "flex items-center space-x-2 sm:space-x-4 bg-transparent",
-            showSearch && "opacity-0 sm:opacity-100 pointer-events-none sm:pointer-events-auto"
+            "flex items-center space-x-2 sm:space-x-4",
+            showSearch && "opacity-0 pointer-events-none sm:opacity-100 sm:pointer-events-auto"
           )}>
             {/* Mobile Notifications */}
             <Sheet>
